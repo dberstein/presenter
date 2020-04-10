@@ -1,0 +1,82 @@
+#!/bin/sh
+
+export LC_ALL="C"                         # LC_ALL for sterile collation order
+export GOPATH="/go"                       # set GOPATH
+export PATH="${GOPATH}/bin:$PATH"         # include go's bin directory in PATH
+export FILENAME_TITLE=".title"            # filename with slide's title
+export FILENAME_REPLACE=".replace"        # filename with directory's title replacements
+export EXT_SLIDE=".slide"                 # file extension of slides to bundle
+export EXT_SLIDE_BUNDLE=".slide-bundle"   # file extension of slide bundles
+export DOCROOT="/docroot"                 # presentations document root
+
+get_title_file() {
+    # Outputs filename with slide directory title
+    # If no title file is found, creates an untitled breadcrumn title
+    # $1: directory
+
+    [ ! -f $1/${FILENAME_TITLE} ] && echo "# Untitled: $(dirname $1 | sed 's#^'$DOCROOT'/##g')" > $1/${FILENAME_TITLE} 
+    echo $1/${FILENAME_TITLE} 
+}
+
+set_replacements() {
+    # Writes to directory's replacements file the given key/values and outputs written placeholder names
+    # $1: directory
+    # $*: list of "PLACEHOLDER=VALUE" lines
+
+    local OUTPUT
+    OUTPUT=$1/$FILENAME_REPLACE
+    shift
+
+    # write replacements ...
+    for PH in "$@"; do
+        echo $PH >> $OUTPUT
+    done
+
+    # return placeholders ...
+    for PH in "$@"; do
+        echo $PH | cut -d= -f1
+    done
+}
+
+title_cat() {
+    # Outputs directory's title
+    # $1: directory
+
+    local SLIDE_TITLE_FILE
+    SLIDE_TITLE_FILE=$(get_title_file $1)
+
+    # replacements ...
+    for PH in $( set_replacements $1 \
+        "TITLE=$(basename $1)" \
+        "SUBTITLE=$(basename $1)" \
+        "DATE=$(date -u --rfc-2822)" \
+    ); do
+        # replace inline placeholder for its replacement value
+        sed -i'' 's#{{'$PH'}}#'"$(egrep "^$PH=" $1/$FILENAME_REPLACE | cut -d= -f2-)"'#g' $SLIDE_TITLE_FILE
+    done
+    cat $SLIDE_TITLE_FILE && echo
+}
+
+bundle() {
+    # Bundles all slides in directory by concatenating directory's title and all slides files within without recursing
+    # $1: directory
+
+    # output directory title slide concatenated with directory slides ...
+    title_cat $1
+    for SLIDE in $(find $1 -maxdepth 1 -type f -name '*'$EXT_SLIDE | sort); do
+        echo && cat $SLIDE
+    done
+}
+
+# create slide bundles from arguments as directories ...
+for D in $(find $DOCROOT -type f -name '*'$EXT_SLIDE -exec dirname {} \; | xargs -rn1 readlink -f | sort | uniq | sort -r); do
+    # bundle slides then delete bundled slides ...
+    bundle $D > $(dirname $D)/$(basename $D)$EXT_SLIDE_BUNDLE \
+    && find $D -type f -name '*'$EXT_SLIDE -delete \
+    && find $D -type f \( -name $FILENAME_TITLE -o -name $FILENAME_REPLACE \) -exec rm {} \;
+done
+
+# rename slide bundles as plain slides, remove empty content directories and launch present tool ...
+find $DOCROOT -type f -name '*'$EXT_SLIDE_BUNDLE | sed 's#\(.*\)'$EXT_SLIDE_BUNDLE'$#mv & \1'$EXT_SLIDE'#g' | sh \
+&& find $DOCROOT -type d | xargs -rI{} sh -c 'rmdir --ignore-fail-on-non-empty {}' \
+&& present -content=$DOCROOT -http=0.0.0.0:80 -play=false -notes
