@@ -1,7 +1,7 @@
 **presenter** - companion to go's tool [present](https://godoc.org/golang.org/x/tools/present).
 
 
-Presenter wraps `present` tool in a small cutomized [alpine linux](https://alpinelinux.org) image the [present](https://godoc.org/golang.org/x/tools/present) binary, content under `./docroot` is can be accessed by a web browser at `http://127.0.0.1:8080` (browser is open automatically).
+Presenter wraps `present` tool in a small cutomized [alpine linux](https://alpinelinux.org) image the [present](https://godoc.org/golang.org/x/tools/present) binary, content under `./docroot` can be accessed by a web browser at `http://127.0.0.1:8080` (browser is open automatically).
 
 **Important: [docker](https://www.docker.com) or [podman](https://podman.io) are required**
 
