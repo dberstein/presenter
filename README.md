@@ -34,8 +34,8 @@ Above naming scheme guarantees `000-intro.slide` will appear in the bundle befor
 Docker image can be exported/saved for sharing (container name is `presenter_local`), to run it need to expose container's port **80** and use as command: `presenter`
 
 ```
-$ make export # creates ./sfx.run
-$ ./sfx.run   # shared sfx.run
+$ make export # creates sfx.run
+$ sh sfx.run  # shared sfx.run
 ```
 
 ** Title placeholders **
@@ -60,7 +60,7 @@ Scenarios:
 - Problem: need to listen to port different taht `8080`
   - Solution: set env var `PRESENTER_PORT` to port number desired when calling `make` or `sfx.run`
 - Problem: need to share presentation
-  - Solution: `$ make export` created `./sfx.run` that can be shared, file size will be `~60MB` (note that file is overwritten per invocation, rename/backup as required)
+  - Solution: `$ make export` creates `./sfx.run` that can be shared and executed by `sh sfx.run`, file size will be `~60MB` (note that file is overwritten per invocation, rename/backup as required)
 - Problem: need shell access to running container.
   - Solution: `$ make shell`
 ```
