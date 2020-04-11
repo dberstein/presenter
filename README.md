@@ -1,9 +1,9 @@
 **presenter** - companion to go's tool [present](https://godoc.org/golang.org/x/tools/present).
 
 
-Presenter wraps `present` tool in a small cutomized [alpine linux](https://alpinelinux.org) image the [present](https://godoc.org/golang.org/x/tools/present) binary, content under `./docroot` and opens a web browser at listening address of tool's web UI for `./docroot` at `http://127.0.0.1:8080`.
+Presenter wraps `present` tool in a small cutomized [alpine linux](https://alpinelinux.org) image the [present](https://godoc.org/golang.org/x/tools/present) binary, content under `./docroot` is can be accessed by a web browser at `http://127.0.0.1:8080` (browser is open automatically).
 
-**Important: [Docker](https://www.docker.com) or [Podman](https://podman.io) are required**
+**Important: [docker](https://www.docker.com) or [podman](https://podman.io) are required**
 
 Default is to open browser URL `http://127.0.0.1:8080`. Override port `8080` with environmental variable **PRESENTER_PORT**, ie. `make run -e PRESENTER_PORT=9999`
 
