@@ -28,14 +28,14 @@ ps/quiet: container/ps/quiet              ## Show only ID os running presenter c
 
 TEMP_TARBALL=$(IMAGE).tgz
 export:                                   ## Export presentation for sharing as SFX file ./sfx.run
-	@$(MAKE) -e OPENER=echo\ running\ at start \
+	@$(MAKE) -e OPENER="echo running at" start \
 	&& $(DOCKER) export $(CONTAINER) | gzip -9 > $(TEMP_TARBALL) \
 	&& cat ./bin/sfx.sh $(IMAGE).tgz > sfx.run \
 	&& rm $(TEMP_TARBALL) \
 	&& chmod +x sfx.run
 
 inspect:                                  ## Inspect presenter's image and container
-	@{    echo image/insprect:;    $(MAKE) --no-print-directory image/inspect     | cat \
+	@{    echo image/inspect:;     $(MAKE) --no-print-directory image/inspect     | cat \
 	   && echo container/inspect:; $(MAKE) --no-print-directory container/inspect | cat \
 	;} | $(PAGER)
 
@@ -72,7 +72,7 @@ endif
 
 
 .PHONY: image/build
-image/build: ./Dockerfile                 ## Docker build presenter image
+image/build:                              ## Docker build presenter image
 	@$(DOCKER) rm -f $(CONTAINER) || true; $(DOCKER) build . --target $(IMAGE) -t $(IMAGE):$(TAG)
 
 

@@ -17,7 +17,7 @@ container_run() {
 
 image_error() {
     $PRESENTER_CMD_DOCKER rmi -f $1
-    echo >&2 "Try: $(tput bold)env PRESENTER_CMD_DOCKER=$PRESENTER_CMD_DOCKER PRESENTER_PORT=$(echo $PRESENTER_PORT+1 | bc) $0$(tput sgr0)"; exit 1;
+    echo >&2 "Try: $(tput bold)env PRESENTER_CMD_DOCKER=$PRESENTER_CMD_DOCKER PRESENTER_PORT=$(echo $PRESENTER_PORT+1 | bc) sh $0$(tput sgr0)"; exit 1;
 }
 
 container_cleanup() {
