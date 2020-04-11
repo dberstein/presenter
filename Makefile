@@ -1,11 +1,12 @@
-EXPOSE_AT?=8080
-LISTEN_AT=80
+PRESENTER_PORT?=8080
+PRESENTER_PORT_CONTAINER=80
 
 IMAGE=presenter
-TAG=local
+TAG=latest
 CONTAINER=$(IMAGE)_$(TAG)
 
-BROWSER_ADDR="http://127.0.0.1:$(EXPOSE_AT)"
+PRESENTER_CMD_DOCKER?=docker
+BROWSER_ADDR="http://127.0.0.1:$(PRESENTER_PORT)"
 OPENER=$(shell command -v xdg-open || command -v open)
 
 # validate docker command is available
@@ -25,13 +26,21 @@ shell:    container/shell                 ## Shell in presenter container
 ps:       container/ps                    ## Show running presenter container
 ps/quiet: container/ps/quiet              ## Show only ID os running presenter container
 
+OPENER=echo running at
+TEMP_TARBALL=$(IMAGE).tgz
+export: start                             ## Export presentation for sharing as SFX file ./sfx.run
+	@$(DOCKER) export $(CONTAINER) | gzip -9 > $(TEMP_TARBALL) \
+	&& cat ./bin/sfx.sh $(IMAGE).tgz > sfx.run \
+	&& rm $(TEMP_TARBALL) \
+	&& chmod +x sfx.run
+
 inspect:                                  ## Inspect presenter's image and container
 	@{    echo image/insprect:;    $(MAKE) --no-print-directory image/inspect     | cat \
 	   && echo container/inspect:; $(MAKE) --no-print-directory container/inspect | cat \
 	;} | $(PAGER)
 
 container/start: image/build              ## Docker run container of presenter image
-	@$(DOCKER) run --rm -dp $(EXPOSE_AT):$(LISTEN_AT) \
+	@$(DOCKER) run --rm -dp $(PRESENTER_PORT):$(PRESENTER_PORT_CONTAINER) \
 				--name $(CONTAINER) \
 				$(IMAGE):$(TAG) \
 	&& $(OPENER) "$(BROWSER_ADDR)"
