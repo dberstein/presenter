@@ -7,7 +7,7 @@ CONTAINER=$(IMAGE)_$(TAG)
 
 PRESENTER_CMD_DOCKER?=docker
 BROWSER_ADDR="http://127.0.0.1:$(PRESENTER_PORT)"
-OPENER=$(shell command -v xdg-open || command -v open)
+OPENER?=$(shell command -v xdg-open || command -v open)
 
 # validate docker command is available
 DOCKER=$(shell command -v docker)
@@ -26,10 +26,10 @@ shell:    container/shell                 ## Shell in presenter container
 ps:       container/ps                    ## Show running presenter container
 ps/quiet: container/ps/quiet              ## Show only ID os running presenter container
 
-OPENER=echo running at
 TEMP_TARBALL=$(IMAGE).tgz
-export: start                             ## Export presentation for sharing as SFX file ./sfx.run
-	@$(DOCKER) export $(CONTAINER) | gzip -9 > $(TEMP_TARBALL) \
+export:                                   ## Export presentation for sharing as SFX file ./sfx.run
+	@$(MAKE) -e OPENER=echo\ running\ at start \
+	&& $(DOCKER) export $(CONTAINER) | gzip -9 > $(TEMP_TARBALL) \
 	&& cat ./bin/sfx.sh $(IMAGE).tgz > sfx.run \
 	&& rm $(TEMP_TARBALL) \
 	&& chmod +x sfx.run
