@@ -10,4 +10,5 @@ COPY --from=builder /go/ /go/
 WORKDIR /docroot
 COPY ./docroot/ ./
 COPY ./bin/presenter /usr/local/bin/presenter
+RUN ln -s /usr/local/bin/presenter /usr/local/bin/presenter.shared
 CMD ["presenter"]

@@ -28,7 +28,7 @@ container_opener() {
     $OPENER http://127.0.0.1:${PRESENTER_PORT}
 }
 
-IMAGE=$(tail -n +$(offset) $0 | $PRESENTER_CMD_DOCKER import --change "CMD presenter" --message "created by https://github.com/dberstein/presenter at $(date)" -) \
+IMAGE=$(tail -n +$(offset) $0 | $PRESENTER_CMD_DOCKER import --change "CMD presenter.shared" --message "created by https://github.com/dberstein/presenter at $(date)" -) \
 && [ -n $IMAGE ] && CONTAINER=$(container_run $IMAGE || image_error $IMAGE) \
 && [ -n $CONTAINER ] && container_cleanup $IMAGE && container_opener
 

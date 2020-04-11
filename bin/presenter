@@ -68,15 +68,28 @@ bundle() {
     done
 }
 
-# create slide bundles from arguments as directories ...
-for D in $(find $DOCROOT -type f -name '*'$EXT_SLIDE -exec dirname {} \; | xargs -rn1 readlink -f | sort | uniq | sort -r); do
-    # bundle slides then delete bundled slides ...
-    bundle $D > $(dirname $D)/$(basename $D)$EXT_SLIDE_BUNDLE \
-    && find $D -type f -name '*'$EXT_SLIDE -delete \
-    && find $D -type f \( -name $FILENAME_TITLE -o -name $FILENAME_REPLACE \) -exec rm {} \;
-done
+build_slides() {
+    # create slide bundles from arguments as directories ...
+    for D in $(find $DOCROOT -type f -name '*'$EXT_SLIDE -exec dirname {} \; | xargs -rn1 readlink -f | sort | uniq | sort -r); do
+        # bundle slides then delete bundled slides ...
+        bundle $D > $(dirname $D)/$(basename $D)$EXT_SLIDE_BUNDLE \
+        && find $D -type f -name '*'$EXT_SLIDE -delete \
+        && find $D -type f \( -name $FILENAME_TITLE -o -name $FILENAME_REPLACE \) -exec rm {} \;
+    done
 
-# rename slide bundles as plain slides, remove empty content directories and launch present tool ...
-find $DOCROOT -type f -name '*'$EXT_SLIDE_BUNDLE | sed 's#\(.*\)'$EXT_SLIDE_BUNDLE'$#mv & \1'$EXT_SLIDE'#g' | sh \
-&& find $DOCROOT -type d | xargs -rI{} sh -c 'rmdir --ignore-fail-on-non-empty {}' \
-&& present -content=$DOCROOT -http=0.0.0.0:80 -play=false -notes
+    # rename slide bundles as plain slides, remove empty content directories and launch present tool ...
+    find $DOCROOT -type f -name '*'$EXT_SLIDE_BUNDLE | sed 's#\(.*\)'$EXT_SLIDE_BUNDLE'$#mv & \1'$EXT_SLIDE'#g' | sh \
+    && find $DOCROOT -type d | xargs -rI{} sh -c 'rmdir --ignore-fail-on-non-empty {}'
+}
+
+run_present() {
+    present -content=$DOCROOT -http=0.0.0.0:80 -play=false -notes \
+    && exit 0
+}
+
+case "$(basename $0)" in
+    # do not invoke builder if invoked command has within string "shared" ...
+    *shared*) run_present ;;
+    # otherwise its OK to build slides ...
+    *) build_slides && run_present ;;
+esac
