@@ -1,10 +1,13 @@
 **presenter** - companion to go's tool [present](https://godoc.org/golang.org/x/tools/present).
 
-Presenter wraps [present](https://godoc.org/golang.org/x/tools/present) tool in a small cutomized alpine linux image the [present](https://godoc.org/golang.org/x/tools/present) binary, content under `./docroot` and opens a web browser at listening address of tool's web UI for `./docroot` at `http://127.0.0.1:8080`.
+
+Presenter wraps `present` tool in a small cutomized [alpine linux](https://alpinelinux.org) image the [present](https://godoc.org/golang.org/x/tools/present) binary, content under `./docroot` and opens a web browser at listening address of tool's web UI for `./docroot` at `http://127.0.0.1:8080`.
 
 **Important: [Docker](https://www.docker.com) or [Podman](https://podman.io) are required**
 
-A bundle slide is created for each subdirectory of `./docroot`, named `<dir>.slide`, by concatenating directory's `.title` file and alphabetically ordered [.slide](https://golang.org/x/tools/cmd/present) files inside. To manage ordering, please use a naming convention like:
+Default is to open browser URL `http://127.0.0.1:8080`. Override port `8080` with environmental variable **PRESENTER_PORT**, ie. `make run -e PRESENTER_PORT=9999`
+
+A slide bundle is created for each subdirectory of `./docroot`, named `<dir>.slide`, by concatenating directory's `.title` file and alphabetically ordered [.slide](https://golang.org/x/tools/cmd/present) files inside. To manage ordering, please use a naming convention like:
 
 ```
 ./docroot/subject/.title
@@ -19,14 +22,14 @@ Will be bundled and served as if `./docroot` had:
 ./docroot/subject/blog.article
 ```
 
+Above naming scheme guarantees `000-intro.slide` will appear in the bundle before `100-final.slide`.
+
+- Directory title file `.title` **must** start as a top level section (ie. `# title`), directories missing a `.title` get default one created using directory's name as title
+- Above means that individual slides (`*.slide` files) should start with a subsection `## slide title`
 - Non slide files, like above's [.article](https://golang.org/x/blog), are copied and served without modifications
 - Organize a mix of `.slide` and `.article` files in hierachical subdirectories for maximum impact.
 
-Above guarantees `intro` will appear in the bundle before `final`.  
-
-By default browser opens at URL `http://127.0.0.1:8080`. Override port `8080` with environmental variable **PRESENTER_PORT**, ie. `make run -e PRESENTER_PORT=9999`
-
-*TODO: explain use of placeholders in `.title` files.*
+** Sharing**
 
 Docker image can be exported/saved for sharing (container name is `presenter_local`), to run it need to expose container's port **80** and use as command: `presenter`
 
@@ -34,6 +37,14 @@ Docker image can be exported/saved for sharing (container name is `presenter_loc
 $ make export # creates ./sfx.run
 $ ./sfx.run   # shared sfx.run
 ```
+
+** Title placeholders **
+
+When `.title` files are processed, the following placeholders are expanded:
+
+|| PLACEHOLDER || REPLACEMENT ||
+| TODO | TODO |
+| ... | ... |
 
 **Usage:** `make help`
 
