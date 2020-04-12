@@ -99,7 +99,7 @@ This file is in [path=subject|fullpath=/docroot/subject]
   - Solution: `$ make [start] && sleep 30 && make stop`
 - Problem: need to inspect image and/or running container
   - Solution: `$ make (inspect|image/inspect|container/inspect)`
-- Problem: use `podman` instead of `docker`
+- Problem: use **podman** instead of **docker**
   - Solution: use `PRESENTER_CMD=podman` when calling `make` or `sfx.run` (see [PRESENTER_CMD](#environment-variables))
 - Problem: need to listen to a port different than `8080`
   - Solution: use `PRESENTER_PORT=nnnn` when calling `make` or `sfx.run` (see [PRESENTER_PORT](#environment-variables))
