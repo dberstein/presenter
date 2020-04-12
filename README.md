@@ -106,7 +106,7 @@ This file is in [path=subject|fullpath=/docroot/subject]
 - Problem: need to share presentation
   - Solution: `$ make export` creates ~60MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required), use [PRESENTER_EXPORT](#environment-variables) to change filename
 - Problem: need shell access to running container
-  - Solution: **`$ make shell`**
+  - Solution: `$ make shell`
 
     ```
     $  make shell
