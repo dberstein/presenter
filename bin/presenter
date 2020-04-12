@@ -48,9 +48,10 @@ title_cat() {
 
     # replacements ...
     for PH in $( set_replacements $1 \
-        "TITLE=$(basename $1)" \
-        "SUBTITLE=$(basename $1)" \
-        "DATE=$(date -u --rfc-2822)" \
+        "DIR=$(basename $1)" \
+        "PATH=$(echo $1 | sed 's#/[^/]*/\(.*\)$#\1#g')" \
+        "FULLPATH=$1" \
+        "CURRENT_DATE=$(date -u --rfc-2822)" \
     ); do
         # replace inline placeholder for its replacement value
         sed -i'' 's#{{'$PH'}}#'"$(egrep "^$PH=" $1/$FILENAME_REPLACE | cut -d= -f2-)"'#g' $SLIDE_TITLE_FILE

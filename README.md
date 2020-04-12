@@ -68,13 +68,28 @@ $ sh sfx.run
 
 ### Title placeholders
 
-> When `.title` files are processed the following placeholders are expanded:
+Tile files `.title` have the following placeholders expanded:
 
-PLACEHOLDER  | VALUE
------------- | -----
-`{{TITLE}}`    | title
-`{{SUBTITLE}}` | subtitle
-`{{DATE}}`     | Current date
+PLACEHOLDER        | VALUE
+------------------ | -----
+`{{DIR}}`          | Directory name
+`{{PATH}}`         | Path relative to docroot
+`{{FULLPATH}}`     | Absolute directory path
+`{{CURRENT_DATE}}` | Current date
+
+Example (file: `./docroot/subject/.title`):
+```
+# Subject Title: {{DIR}}
+
+This file is in {{PATH}} ({{FULLPATH}}) at {{CURRENT_DATE}}
+```
+Renders as:
+```
+Subject Title: subject
+Author Name
+dow, dd MMM YYYY HH:mm:ss UTC
+This file is in [path=subject|fullpath=/docroot/subject]
+```
 
 ### Scenarios
 
