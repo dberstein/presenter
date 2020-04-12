@@ -36,9 +36,9 @@ Will be bundled and served as if `./docroot` had:
 
 Above naming scheme guarantees `000-intro` will appear in the bundle before `100-final`.
 
-- Directory title file `.title` **must** start as a top level section (ie. `# title`), directories missing a `.title` get default one created using directory's name as title
+- Directory title file `.title` must start as a top level section (ie. `# title`), directories missing a `.title` get default one created using directory's name as title
 - Above means that individual slides (`*.slide` files) should start with a subsection `## slide title`
-- Non slide files, like above's [blog.article](https://golang.org/x/blog), are copied and served without modifications
+- Non slide files, like above's *[blog.article](https://golang.org/x/blog)*, are copied and served without modifications
 - Slide bundles are also served as `<dir>.article` if there is no such existing article.
 - Organize a mix of `.slide` and `.article` files in hierachical subdirectories for maximum impact.
 
@@ -92,6 +92,7 @@ PLACEHOLDER  | VALUE
   - Solution: `$ make export` creates `./sfx.run` that can be shared and executed by `sh sfx.run`, file size will be `~60MB` (note that file is overwritten per invocation, rename/backup as required)
 - Problem: need shell access to running container.
   - Solution: **`$ make shell`**
+
     ```
     $  make shell
     /docroot #
