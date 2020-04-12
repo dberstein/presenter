@@ -1,20 +1,10 @@
 # presenter 
 
-> Companion to go's tool [present](https://godoc.org/golang.org/x/tools/present)
-
-- [presenter](#presenter)
-  - [Summary](#summary)
-    - [Supports](#supports)
-  - [Description](#description)
-  - [Usage: `make help`](#usage-make-help)
-    - [Environment variables](#environment-variables)
-  - [Sharing](#sharing)
-    - [Title placeholders](#title-placeholders)
-    - [Scenarios](#scenarios)
+> Companion to tool [present](https://godoc.org/golang.org/x/tools/present)
 
 ## Summary
 
-Presenter wraps `present` tool in a small customized [alpine linux](https://alpinelinux.org) image the **present** binary. Content under `./docroot` can be accessed by a web browser launched automatically on default address `http://127.0.0.1:8080` (see [PRESENTER_HOST, PRESENTER_PORT](#environment-variables)).
+Presenter wraps tool `present` in a small [alpine linux](https://alpinelinux.org) image with a **present** binary. Content under `./docroot` can is accessed by a browser launched automatically on URL `http://127.0.0.1:8080` (see [PRESENTER_HOST, PRESENTER_PORT](#environment-variables)).
 
 ### Supports
 
