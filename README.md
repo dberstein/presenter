@@ -13,7 +13,7 @@ Presenter wraps tool `present` in a small [alpine linux](https://alpinelinux.org
 
 ## Description
 
-Default is to open browser URL `http://127.0.0.1:8080`. Override port `8080` with environmental variable **PRESENTER_PORT**, ie. `make run -e PRESENTER_PORT=9999`
+Default content URL is [http://127.0.0.1:8080](http://127.0.0.1:8080), override hostname/port with environmental variables see [PRESENTER_*](#environment-variables), ie. `make run -e PRESENTER_PORT=9999`
 
 A slide bundle is created for each subdirectory of `./docroot`, named `<dir>.slide`, by concatenating directory's `.title` file and alphabetically ordered [.slide](https://golang.org/x/tools/cmd/present) files inside. If `<dir>.article` doesn't exists its created as a copy of `<dir>.slide`.
 
