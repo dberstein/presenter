@@ -77,7 +77,7 @@ PLACEHOLDER        | VALUE
 `{{FULLPATH}}`     | Absolute directory path
 `{{CURRENT_DATE}}` | Current date
 
-Example (file: `./docroot/subject/.title`):
+Example file: `./docroot/subject/.title`:
 ```
 # Subject Title: {{DIR}}
 
