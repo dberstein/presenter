@@ -5,6 +5,7 @@ export GOPATH="/go"                       # set GOPATH
 export PATH="${GOPATH}/bin:$PATH"         # include go's bin directory in PATH
 export FILENAME_TITLE=".title"            # filename with slide's title
 export FILENAME_REPLACE=".replace"        # filename with directory's title replacements
+export EXT_ARTICLE=".article"             # file extension of articles
 export EXT_SLIDE=".slide"                 # file extension of slides to bundle
 export EXT_SLIDE_BUNDLE=".slide-bundle"   # file extension of slide bundles
 export DOCROOT="/docroot"                 # presentations document root
@@ -47,9 +48,10 @@ title_cat() {
 
     # replacements ...
     for PH in $( set_replacements $1 \
-        "TITLE=$(basename $1)" \
-        "SUBTITLE=$(basename $1)" \
-        "DATE=$(date -u --rfc-2822)" \
+        "DIR=$(basename $1)" \
+        "PATH=$(echo $1 | sed 's#/[^/]*/\(.*\)$#\1#g')" \
+        "FULLPATH=$1" \
+        "CURRENT_DATE=$(date -u --rfc-2822)" \
     ); do
         # replace inline placeholder for its replacement value
         sed -i'' 's#{{'$PH'}}#'"$(egrep "^$PH=" $1/$FILENAME_REPLACE | cut -d= -f2-)"'#g' $SLIDE_TITLE_FILE
@@ -80,6 +82,8 @@ build_slides() {
     # rename slide bundles as plain slides, remove empty content directories and launch present tool ...
     find $DOCROOT -type f -name '*'$EXT_SLIDE_BUNDLE | sed 's#\(.*\)'$EXT_SLIDE_BUNDLE'$#mv & \1'$EXT_SLIDE'#g' | sh \
     && find $DOCROOT -type d | xargs -rI{} sh -c 'rmdir --ignore-fail-on-non-empty {}'
+    # create articles if it doesn't overwritting existing file ...
+    find $DOCROOT -type f -name '*'$EXT_SLIDE | sed 's#\(.*\)'$EXT_SLIDE'$#cp -i & \1'$EXT_ARTICLE'#g' | sh
 }
 
 run_present() {
