@@ -4,7 +4,7 @@
 
 ## Summary
 
-Presenter wraps `present` tool in a small cutomized [alpine linux](https://alpinelinux.org) image the **present** binary. Content under `./docroot` can be accessed by a web browser launched automatically. Default address is `http://127.0.0.1:8080`.
+Presenter wraps `present` tool in a small customized [alpine linux](https://alpinelinux.org) image the **present** binary. Content under `./docroot` can be accessed by a web browser launched automatically. Default address is `http://127.0.0.1:8080`.
 
 ### Supports
 
@@ -93,19 +93,19 @@ This file is in [path=subject|fullpath=/docroot/subject]
 
 ### Scenarios
 
-- Problem: go's present contents of ./docroot
+- Problem: process and serve content in `./docroot`
   - Solution: `$ make [start]`
-- Problem: serve `./docroot` only for 30 seconds
+- Problem: run presenter for limited time
   - Solution: `$ make [start] && sleep 30 && make stop`
-- Problem: docker inspect image and/or running container
+- Problem: need to inspect image and/or running container
   - Solution: `$ make (inspect|image/inspect|container/inspect)`
-- Problem: I use `podman` not `docker`
-  - Solution: set env var `PRESENTER_CMD=podman` when calling `make` or `sfx.run`
-- Problem: need to listen to port different taht `8080`
-  - Solution: set env var `PRESENTER_PORT` to port number desired when calling `make` or `sfx.run`
+- Problem: Use `podman` instead of `docker`
+  - Solution: see [PRESENTER_CMD](#environment-variables) use `PRESENTER_CMD=podman` when calling `make` or `sfx.run`
+- Problem: need to listen to a port different than `8080`
+  - Solution: see [PRESENTER_PORT](#environment-variables) use `PRESENTER_PORT=nnnn` when calling `make` or `sfx.run`
 - Problem: need to share presentation
-  - Solution: `$ make export` creates `./sfx.run` that can be shared and executed by `sh sfx.run`, file size will be `~60MB` (note that file is overwritten per invocation, rename/backup as required)
-- Problem: need shell access to running container.
+  - Solution: `$ make export` creates ~60MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required), use [PRESENTER_EXPORT](#environment-variables) to change filename
+- Problem: need shell access to running container
   - Solution: **`$ make shell`**
 
     ```
