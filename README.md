@@ -1,10 +1,10 @@
 # presenter 
 
-> Companion to go's tool [present](https://godoc.org/golang.org/x/tools/present)
+> Companion to tool [present](https://godoc.org/golang.org/x/tools/present)
 
 ## Summary
 
-Presenter wraps `present` tool in a small cutomized [alpine linux](https://alpinelinux.org) image the **present** binary. Content under `./docroot` can be accessed by a web browser launched automatically. Default address is `http://127.0.0.1:8080`.
+Presenter wraps tool `present` in a small [alpine linux](https://alpinelinux.org) image with a **present** binary. Content under `./docroot` can is accessed by a browser launched automatically on URL [http://127.0.0.1:8080](http://127.0.0.1:8080) (see [PRESENTER_HOST](#environment-variables), [PRESENTER_PORT](#environment-variables)).
 
 ### Supports
 
@@ -13,7 +13,7 @@ Presenter wraps `present` tool in a small cutomized [alpine linux](https://alpin
 
 ## Description
 
-Default is to open browser URL `http://127.0.0.1:8080`. Override port `8080` with environmental variable **PRESENTER_PORT**, ie. `make run -e PRESENTER_PORT=9999`
+Default content URL is [http://127.0.0.1:8080](http://127.0.0.1:8080), override hostname/port with environmental variables see [PRESENTER_*](#environment-variables), ie. `make run -e PRESENTER_PORT=9999`
 
 A slide bundle is created for each subdirectory of `./docroot`, named `<dir>.slide`, by concatenating directory's `.title` file and alphabetically ordered [.slide](https://golang.org/x/tools/cmd/present) files inside. If `<dir>.article` doesn't exists its created as a copy of `<dir>.slide`.
 
@@ -46,13 +46,13 @@ Above naming scheme guarantees `000-intro` will appear in the bundle before `100
 
 ### Environment variables
 
-Env. Variable    | Description                       | Default Value
------------------|-----------------------------------|--------------
-PRESENTER_CMD    | Command to manage image/container | `docker`
-PRESENTER_HOST   | Host name address part to listen  | `127.0.0.1`
-PRESENTER_PORT   | Port of address to listen         | `8080`
-PRESENTER_OPENER | Preferred application opener      | `xdg-open` or `open`
-PRESENTER_EXPORT | Exported filename                 | `sfx.run`
+Env. Variable      | Description                       | Default Value
+-------------------|-----------------------------------|--------------
+`PRESENTER_CMD`    | Command to manage image/container | `docker`
+`PRESENTER_HOST`   | Host name address part to listen  | `127.0.0.1`
+`PRESENTER_PORT`   | Port of address to listen         | `8080`
+`PRESENTER_OPENER` | Preferred application opener      | `xdg-open` or `open`
+`PRESENTER_EXPORT` | Exported filename                 | `sfx.run`
 
 ## Sharing
 
@@ -77,36 +77,38 @@ PLACEHOLDER        | VALUE
 `{{FULLPATH}}`     | Absolute directory path
 `{{CURRENT_DATE}}` | Current date
 
-Example (file: `./docroot/subject/.title`):
+Example file `./docroot/subject/.title`:
 ```
 # Subject Title: {{DIR}}
 
-This file is in {{PATH}} ({{FULLPATH}}) at {{CURRENT_DATE}}
+Author Name
+{{CURRENT_DATE}}
+This file is in "{{PATH}}" ({{FULLPATH}})
 ```
-Renders as:
+Renders:
 ```
 Subject Title: subject
 Author Name
 dow, dd MMM YYYY HH:mm:ss UTC
-This file is in [path=subject|fullpath=/docroot/subject]
+This file is in "subject" (/docroot/subject)
 ```
 
 ### Scenarios
 
-- Problem: go's present contents of ./docroot
-  - Solution: `$ make [start]`
-- Problem: serve `./docroot` only for 30 seconds
-  - Solution: `$ make [start] && sleep 30 && make stop`
-- Problem: docker inspect image and/or running container
-  - Solution: `$ make (inspect|image/inspect|container/inspect)`
-- Problem: I use `podman` not `docker`
-  - Solution: set env var `PRESENTER_CMD=podman` when calling `make` or `sfx.run`
-- Problem: need to listen to port different taht `8080`
-  - Solution: set env var `PRESENTER_PORT` to port number desired when calling `make` or `sfx.run`
+- Problem: process and serve content in `./docroot`
+  - **Solution**: `$ make [start]`
+- Problem: run presenter for limited time
+  - **Solution**: `$ make [start] && sleep 30 && make stop`
+- Problem: need to inspect image and/or running container
+  - **Solution**: `$ make (inspect|image/inspect|container/inspect)`
+- Problem: use **podman** instead of **docker**
+  - **Solution**: use `PRESENTER_CMD=podman` when calling `make` or `sfx.run` (see [PRESENTER_CMD](#environment-variables))
+- Problem: need to listen to a port different than `8080`
+  - **Solution**: use `PRESENTER_PORT=nnnn` when calling `make` or `sfx.run` (see [PRESENTER_PORT](#environment-variables))
 - Problem: need to share presentation
-  - Solution: `$ make export` creates `./sfx.run` that can be shared and executed by `sh sfx.run`, file size will be `~60MB` (note that file is overwritten per invocation, rename/backup as required)
-- Problem: need shell access to running container.
-  - Solution: **`$ make shell`**
+  - **Solution**: `$ make export` creates ~60MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required; to change filename see [PRESENTER_EXPORT](#environment-variables))
+- Problem: need shell access to running container
+  - **Solution**: `$ make shell`
 
     ```
     $  make shell
