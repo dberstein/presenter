@@ -4,7 +4,7 @@
 
 ## Summary
 
-Presenter wraps tool `present` in a small [alpine linux](https://alpinelinux.org) image with a **present** binary. Content under `./docroot` can is accessed by a browser launched automatically on URL [http://127.0.0.1:8080](http://127.0.0.1:8080) (see [PRESENTER_HOST, PRESENTER_PORT](#environment-variables)).
+Presenter wraps tool `present` in a small [alpine linux](https://alpinelinux.org) image with a **present** binary. Content under `./docroot` can is accessed by a browser launched automatically on URL [http://127.0.0.1:8080](http://127.0.0.1:8080) (see [PRESENTER_HOST](#environment-variables), [PRESENTER_PORT](#environment-variables)).
 
 ### Supports
 
