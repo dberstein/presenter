@@ -94,19 +94,19 @@ This file is in [path=subject|fullpath=/docroot/subject]
 ### Scenarios
 
 - Problem: process and serve content in `./docroot`
-  - Solution: `$ make [start]`
+  - **Solution**: `$ make [start]`
 - Problem: run presenter for limited time
-  - Solution: `$ make [start] && sleep 30 && make stop`
+  - **Solution**: `$ make [start] && sleep 30 && make stop`
 - Problem: need to inspect image and/or running container
-  - Solution: `$ make (inspect|image/inspect|container/inspect)`
+  - **Solution**: `$ make (inspect|image/inspect|container/inspect)`
 - Problem: use **podman** instead of **docker**
-  - Solution: use `PRESENTER_CMD=podman` when calling `make` or `sfx.run` (see [PRESENTER_CMD](#environment-variables))
+  - **Solution**: use `PRESENTER_CMD=podman` when calling `make` or `sfx.run` (see [PRESENTER_CMD](#environment-variables))
 - Problem: need to listen to a port different than `8080`
-  - Solution: use `PRESENTER_PORT=nnnn` when calling `make` or `sfx.run` (see [PRESENTER_PORT](#environment-variables))
+  - **Solution**: use `PRESENTER_PORT=nnnn` when calling `make` or `sfx.run` (see [PRESENTER_PORT](#environment-variables))
 - Problem: need to share presentation
-  - Solution: `$ make export` creates ~60MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required), use [PRESENTER_EXPORT](#environment-variables) to change filename
+  - **Solution**: `$ make export` creates ~60MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required - see [PRESENTER_EXPORT](#environment-variables) to change filename)
 - Problem: need shell access to running container
-  - Solution: `$ make shell`
+  - **Solution**: `$ make shell`
 
     ```
     $  make shell
