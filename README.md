@@ -4,7 +4,7 @@
 
 ## Summary
 
-Presenter wraps `present` tool in a small customized [alpine linux](https://alpinelinux.org) image the **present** binary. Content under `./docroot` can be accessed by a web browser launched automatically. Default address is `http://127.0.0.1:8080`.
+Presenter wraps `present` tool in a small customized [alpine linux](https://alpinelinux.org) image the **present** binary. Content under `./docroot` can be accessed by a web browser launched automatically on default address `http://127.0.0.1:8080` (see [PRESENTER_HOST, PRESENTER_PORT](#environment-variables)).
 
 ### Supports
 
