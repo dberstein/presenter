@@ -46,13 +46,13 @@ Above naming scheme guarantees `000-intro` will appear in the bundle before `100
 
 ### Environment variables
 
-Env. Variable    | Description                       | Default Value
------------------|-----------------------------------|--------------
-PRESENTER_CMD    | Command to manage image/container | `docker`
-PRESENTER_HOST   | Host name address part to listen  | `127.0.0.1`
-PRESENTER_PORT   | Port of address to listen         | `8080`
-PRESENTER_OPENER | Preferred application opener      | `xdg-open` or `open`
-PRESENTER_EXPORT | Exported filename                 | `sfx.run`
+Env. Variable      | Description                       | Default Value
+-------------------|-----------------------------------|--------------
+`PRESENTER_CMD`    | Command to manage image/container | `docker`
+`PRESENTER_HOST`   | Host name address part to listen  | `127.0.0.1`
+`PRESENTER_PORT`   | Port of address to listen         | `8080`
+`PRESENTER_OPENER` | Preferred application opener      | `xdg-open` or `open`
+`PRESENTER_EXPORT` | Exported filename                 | `sfx.run`
 
 ## Sharing
 
@@ -104,7 +104,7 @@ This file is in [path=subject|fullpath=/docroot/subject]
 - Problem: need to listen to a port different than `8080`
   - **Solution**: use `PRESENTER_PORT=nnnn` when calling `make` or `sfx.run` (see [PRESENTER_PORT](#environment-variables))
 - Problem: need to share presentation
-  - **Solution**: `$ make export` creates ~60MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required; to change filename see [PRESENTER_EXPORT](#environment-variables))
+  - **Solution**: `$ make export` creates ~60MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required; to change filename` see [PRESENTER_EXPORT](#environment-variables))
 - Problem: need shell access to running container
   - **Solution**: `$ make shell`
 
