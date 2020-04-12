@@ -81,14 +81,16 @@ Example file `./docroot/subject/.title`:
 ```
 # Subject Title: {{DIR}}
 
-This file is in {{PATH}} ({{FULLPATH}}) at {{CURRENT_DATE}}
+Author Name
+{{CURRENT_DATE}}
+This file is in "{{PATH}}" ({{FULLPATH}})
 ```
-Renders as:
+Renders:
 ```
 Subject Title: subject
 Author Name
 dow, dd MMM YYYY HH:mm:ss UTC
-This file is in [path=subject|fullpath=/docroot/subject]
+This file is in "subject" (/docroot/subject)
 ```
 
 ### Scenarios
