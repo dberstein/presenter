@@ -1,14 +1,13 @@
 #!/bin/sh
 
 export LC_ALL="C"                         # LC_ALL for sterile collation order
-export GOPATH="/go"                       # set GOPATH
-export PATH="${GOPATH}/bin:$PATH"         # include go's bin directory in PATH
 export FILENAME_TITLE=".title"            # filename with slide's title
 export FILENAME_REPLACE=".replace"        # filename with directory's title replacements
 export EXT_ARTICLE=".article"             # file extension of articles
 export EXT_SLIDE=".slide"                 # file extension of slides to bundle
 export EXT_SLIDE_BUNDLE=".slide-bundle"   # file extension of slide bundles
 export DOCROOT="/docroot"                 # presentations document root
+export PRESENT_BASE="/present"            # present base directory with templates and assets
 
 get_title_file() {
     # Outputs filename with slide directory title
@@ -87,7 +86,7 @@ build_slides() {
 }
 
 run_present() {
-    present -content=$DOCROOT -http=0.0.0.0:80 -play=false -notes \
+    present -base=$PRESENT_BASE -content=$DOCROOT -http=0.0.0.0:80 -play=false -notes \
     && exit 0
 }
 

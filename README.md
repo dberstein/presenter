@@ -4,7 +4,7 @@
 
 ## Summary
 
-Presenter wraps tool `present` in a small [alpine linux](https://alpinelinux.org) image with a **present** binary. Content under `./docroot` can is accessed by a browser launched automatically on URL [http://127.0.0.1:8080](http://127.0.0.1:8080) (see [PRESENTER_HOST](#environment-variables), [PRESENTER_PORT](#environment-variables)).
+Presenter wraps tool `present` in a small [alpine linux](https://alpinelinux.org) image with a statically compiled [UPX](https://upx.github.io) compressed **present** binary serving content under `./docroot` accessible by a browser launched automatically at URL [http://127.0.0.1:8080](http://127.0.0.1:8080) (see [PRESENTER_HOST](#environment-variables), [PRESENTER_PORT](#environment-variables)).
 
 ### Supports
 
@@ -106,7 +106,7 @@ This file is in "subject" (/docroot/subject)
 - Problem: need to listen to a port different than `8080`
   - **Solution**: use `PRESENTER_PORT=nnnn` when calling `make` or `sfx.run` (see [PRESENTER_PORT](#environment-variables))
 - Problem: need to share presentation
-  - **Solution**: `$ make export` creates ~60MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required; to change filename see [PRESENTER_EXPORT](#environment-variables))
+  - **Solution**: `$ make export` creates ~13MB `sfx.run` that can be shared and executed by `sh sfx.run` (file overwritten per invocation, rename/backup as required; to change filename see [PRESENTER_EXPORT](#environment-variables))
 - Problem: need shell access to running container
   - **Solution**: `$ make shell`
 
