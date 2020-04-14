@@ -6,8 +6,8 @@ export FILENAME_REPLACE=".replace"        # filename with directory's title repl
 export EXT_ARTICLE=".article"             # file extension of articles
 export EXT_SLIDE=".slide"                 # file extension of slides to bundle
 export EXT_SLIDE_BUNDLE=".slide-bundle"   # file extension of slide bundles
-export DOCROOT="/docroot"                 # presentations document root
 export PRESENT_BASE="/present"            # present base directory with templates and assets
+export DOCROOT="${PRESENT_BASE}/docroot"  # presentations document root
 
 get_title_file() {
     # Outputs filename with slide directory title

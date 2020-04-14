@@ -54,7 +54,7 @@ Env. Variable      | Description                       | Default Value
 `PRESENTER_OPENER` | Preferred application opener      | `xdg-open` or `open`
 `PRESENTER_EXPORT` | Exported filename                 | `sfx.run`
 
-## Sharing
+### Sharing
 
 Docker image can be exported/saved for sharing (container name is `presenter_local`), to run it need to expose container's port *80* and use as command: `presenter`
 
@@ -92,6 +92,10 @@ Author Name
 dow, dd MMM YYYY HH:mm:ss UTC
 This file is in "subject" (/docroot/subject)
 ```
+
+### Styling
+
+Write your CSS overrides in folder `./css`, will be appended to site's stylesheets.
 
 ### Scenarios
 

@@ -13,7 +13,11 @@ COPY --from=builder /go/bin/present /usr/local/bin/present
 WORKDIR /present
 COPY --from=builder /go/src/golang.org/x/tools/cmd/present/static/ ./static/
 COPY --from=builder /go/src/golang.org/x/tools/cmd/present/templates/ ./templates/
-WORKDIR /docroot
+WORKDIR /tmp/css
+COPY ./css/ ./
+RUN find /present/static -type f -name '*.css' | xargs -rI{} sh -c 'cat /tmp/css/*.css >> {}' \
+ && rm -rvf /tmp/css
+WORKDIR /present/docroot
 COPY ./docroot/ ./
 COPY ./bin/presenter /usr/local/bin/
 RUN ln -s /usr/local/bin/presenter /usr/local/bin/presenter.shared

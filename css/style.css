@@ -1,0 +1,28 @@
+/* Place CSS overrides in this directory */
+
+/* Change background color */
+
+body {
+    background-color: #eeeeee;
+}
+
+/* Hide header and footer */
+
+#topbar > div > form, div#footer {
+    visibility: hidden;
+}
+
+/* Change content */
+
+div#page:not(.wide) > h1 {
+    visibility: hidden;
+    position: relative;
+}
+
+div#page:not(.wide) > h1::after {
+    top: 0;
+    left: 0;
+    visibility: visible;
+    position: absolute;
+    content: "Available Content";
+}
