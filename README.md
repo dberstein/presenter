@@ -95,7 +95,8 @@ This file is in "subject" (/docroot/subject)
 
 ### Styling
 
-Write your CSS overrides in folder `./css`, will be appended to site's stylesheets.
+Before compilation templates and styles can be modified in script `./bin/present_patch`.
+Default is to make theme less Go-specific by removing header, footer and re-wording title.
 
 ### Scenarios
 

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Do here modifications to content under $ROOT, before "present" is compiled
+ROOT=$(go env GOPATH)/src/golang.org/x/tools/cmd/present
+echo "Patching [$ROOT] ..." >&2 \
+&& echo remove topbar >&2 \
+&& sed -i'' '/<div id="topbar">/,/<\/div><\/div>/d' $ROOT/templates/dir.tmpl \
+&& echo ... change title >&2 \
+&& sed -i'' 's/Talks - The Go Programming Language/Talks/g' $ROOT/templates/dir.tmpl \
+&& echo ... change subtitle >&2 \
+&& sed -i'' 's/Go talks/<a href=\/>Talks<\/a>/g' $ROOT/templates/dir.tmpl \
+&& echo ... change slogan >&2 \
+&& sed -i'' 's/The Go Programming Language/Talks/g' $ROOT/templates/dir.tmpl \
+&& echo remove footer >&2 \
+&& sed -i'' '/<div id="footer">/,/<\/div>/d' $ROOT/templates/dir.tmpl \
+&& echo "... patching done [$ROOT]" >&2
