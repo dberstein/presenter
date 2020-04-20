@@ -3,6 +3,7 @@ PRESENTER_PORT?=8080
 PRESENTER_CMD?=docker
 PRESENTER_OPENER?=$(shell command -v xdg-open || command -v open)
 PRESENTER_EXPORT?=sfx.run
+PRESENTER_EXPORT_HTML?=presenter_export.zip
 
 PRESENTER_IMAGE=presenter
 PRESENTER_TAG=latest
@@ -44,6 +45,21 @@ export:                                   ## Export presentation for sharing as 
 		cat ./bin/sfx.sh && $(CMD) export $(PRESENTER_CONTAINER) | gzip -9; \
 	} > $(PRESENTER_EXPORT) \
 	&& echo "Exported: $(call BOLD,$(PRESENTER_EXPORT))"
+
+export/html:                              ## Export presentation as static content presenter_export.zip
+	@$(MAKE) -e PRESENTER_OPENER="echo running at" start \
+	&& { \
+		export DIR=$(shell pwd -P)/$(shell mktemp -d $(PRESENTER_EXPORT_HTML).XXXXX) \
+		&& [ -d $$DIR ] \
+		&& wget -mkEpnp -P $$DIR -nH $(PRESENTER_URL) \
+		&& curl -s $(PRESENTER_URL)/static/styles.css | sed 's#/static/\(.*\)#\1#g' > $$DIR/static/styles.css \
+		&& find $$DIR -mindepth 1 -type d -not -name static -exec ln -s $$DIR/static {}/ \; \
+		&& sed -i'~' "s#var PERMANENT_URL_PREFIX = '/static/#var PERMANENT_URL_PREFIX = './static/#g" $$DIR/static/slides.js \
+		&& sed -i'~' "s#'//fonts.googleapis.com#'https://fonts.googleapis.com#g" $$DIR/static/slides.js \
+		&& (cd $$DIR && zip -r ../$(PRESENTER_EXPORT_HTML) .) \
+		&& rm -rvf $$DIR ; \
+	} \
+	&& echo "Exported: $(call BOLD,$(PRESENTER_EXPORT_HTML))"
 
 inspect:                                  ## Inspect presenter's image and container
 	@{   echo image/inspect: \
