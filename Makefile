@@ -53,6 +53,7 @@ export/html:                              ## Export presentation as static conte
 		&& [ -d $$DIR ] \
 		&& wget -mkEpnp -P $$DIR -nH $(PRESENTER_URL) \
 		&& curl -s $(PRESENTER_URL)/static/styles.css | sed 's#/static/\(.*\)#\1#g' > $$DIR/static/styles.css \
+		&& curl -s $(PRESENTER_URL)/static/notes.css | sed 's#/static/\(.*\)#\1#g' > $$DIR/static/notes.css \
 		&& find $$DIR -mindepth 1 -type d -not -name static -exec ln -s $$DIR/static {}/ \; \
 		&& sed -i'~' "s#var PERMANENT_URL_PREFIX = '/static/#var PERMANENT_URL_PREFIX = './static/#g" $$DIR/static/slides.js \
 		&& sed -i'~' "s#'//fonts.googleapis.com#'https://fonts.googleapis.com#g" $$DIR/static/slides.js \
